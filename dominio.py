@@ -1,3 +1,6 @@
+import sys
+
+
 class Usuario:
 
     def __init__(self, nome):
@@ -24,3 +27,34 @@ class Leilao:
     @property
     def lances(self):
         return self.__lances
+
+
+class Avaliador:
+    def __init__(self):
+        self.maior_lance = sys.float_info.min
+        self.menor_lance = sys.float_info.max
+
+    def avalia(self, leilao: Leilao):
+        for lance in leilao.lances:
+            if lance.valor > self.maior_lance:
+                self.maior_lance = lance.valor
+            if lance.valor < self.menor_lance:
+                self.menor_lance = lance.valor
+
+
+carolina = Usuario('carolina')
+catarina = Usuario('catarina')
+
+leilao = Leilao("Fogão Brastemp 6 bocas")
+
+carolina_lance = Lance(carolina, 150.0)
+catarina_lance = Lance(catarina, 100.0)
+
+leilao.lances.append(catarina_lance)
+leilao.lances.append(carolina_lance)
+
+avaliador = Avaliador()
+avaliador.avalia(leilao)
+
+print(f'Maior lance: {avaliador.maior_lance}')
+print(f'Menor lance: {avaliador.menor_lance}')
